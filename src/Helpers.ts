@@ -1,20 +1,19 @@
-function fibonaci(n:number) {
-  if (n < 5 || n >= 100) return "input must be greater than 4 and less than 100";
+function fibonaci(position: number) {
   const sequence = [1, 1, 2, 3];
-  n = Math.round(n);
+  position = Math.round(position);
   let prev = 2;
   let curr = 3;
 
-  function getfib(prev:number, curr:number):number[] {
+  function getfib(prev: number, curr: number): number[] {
     let next = prev + curr;
     prev = curr;
     curr = next;
     sequence.push(next);
 
     //if we have found nth + 3 fibonaci sequence
-    if (sequence.length == n + 3) {
+    if (sequence.length == position + 3) {
       //return nth Fibonaci and that of 3 numbers before & after n
-      return sequence.slice(n - 4);
+      return sequence.slice(position - 4);
     }
 
     return getfib(prev, curr);
@@ -24,6 +23,5 @@ function fibonaci(n:number) {
 
   return nthfib;
 }
-
 
 export default fibonaci;

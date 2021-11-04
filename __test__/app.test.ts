@@ -9,7 +9,7 @@ describe("GET /:position", () => {
 
       test("Ensure json is returned", (done) => {
         request(app)
-          .get("/5")
+          .get("/api/5")
           .expect("Content-Type", /json/)
           .expect(200)
           .end(function (err, res) {
@@ -22,7 +22,7 @@ describe("GET /:position", () => {
 
         test("Ensure correct result is returned with value of 5", (done) => {
         request(app)
-          .get("/5")
+          .get("/api/5")
           .expect("Content-Type", /json/)
           .expect({ totalTime: 0, sequence: [1, 2, 3, 5, 8, 13, 21] })
           .end(function (err, res) {
@@ -34,7 +34,7 @@ describe("GET /:position", () => {
     
         test("Ensure correct result is returned with value of 10", (done) => {
             request(app)
-              .get("/10")
+              .get("/api/10")
               .expect("Content-Type", /json/)
               .end(function (err, res) {
                   if (err) return done(err);
@@ -50,19 +50,32 @@ describe("GET /:position", () => {
 
         test("Ensure n is greater than 4 and less than 100", (done) => {
             request(app)
-              .get("/100")
+              .get("/api/100")
               .expect("Content-Type", /json/)
-              .expect(200)
+              .expect(400)
               .end(function (err, res) {
                   if (err) return done(err);
-                  expect(res.body.totalTime).toBeLessThanOrEqual(1)
-                  expect(res.statusCode).toBe(200);
-                  expect(res.body.sequence).toBe(
+                  expect(res.statusCode).toBe(400);
+                  expect(res.body).toBe(
                     "input must be greater than 4 and less than 100"
                   );
                 return done();
             });
             
+        });
+  
+  
+        test("Ensure n is a number", (done) => {
+          request(app)
+            .get("/api/name")
+            .expect("Content-Type", /json/)
+            .expect(400)
+            .end(function (err, res) {
+              if (err) return done(err);
+              expect(res.statusCode).toBe(400);
+              expect(res.body).toBe("Only number inputs are allowed");
+              return done();
+            });
         });
         
         
