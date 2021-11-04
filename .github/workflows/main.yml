@@ -20,19 +20,24 @@ jobs:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
-    # Steps represent a sequence of tasks that will be executed as part of the job
+   
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
 
-      # Runs a single command using the runners shell
+      
       - name: install dependencies
         run: npm install
 
       - name: Run the test script
         run: npm run test
-        
-      - name: deploy to heroku
-        run: git push heroku main
+
+  deploy:
+    steps:      
+      - uses: akhileshns/heroku-deploy@v3.12.12 
+        with:
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: "data-infosec" 
+          heroku_email: "nwekejohnbosco"
 
  
